@@ -1,0 +1,30 @@
+@(professeurs:List[Professeur])
+
+@main("Option ICC : Ingénierie du Cloud Computing | EISTI") {
+
+<br /><br />
+
+@for((prof,i) <- professeurs.zipWithIndex){
+   <div class="content-section-@if((i%2)==0){b}else{a}">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-5 @if((i%2)==1){col-lg-offset-1 col-sm-push-6} col-sm-6 text-center">
+                    <div class="clearfix"></div>
+                    <h2 class="section-heading">@prof.prenom @prof.nom</h2>
+                    <p class="lead">@if(prof.description.isDefined){ @Html(prof.description.get)} <br/>
+                                    @if(prof.email.isDefined){Email : @prof.email}<br />
+                                    @if(prof.telephone.isDefined){Téléphone : @prof.telephone}<br/>
+                                    @if(prof.departement.isDefined){Département : @prof.departement}</p>
+                </div>
+                <div class="col-lg-5 @if((i%2)==0){col-lg-offset-2}else{col-sm-pull-6} col-sm-6 text-center">
+                    @if(prof.photo.isDefined){
+                    <img class="img-responsive img-thumbnail" src='@routes.Assets.at("images/profs")/@prof.photo' alt="">
+                    }else{
+                    <img class="img-responsive img-thumbnail" src='@routes.Assets.at("images/fake.jpg")' alt="">
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+}
+}

@@ -1,0 +1,29 @@
+@(eleves:List[Eleve],listePromotions:Seq[Int])
+
+@main("Option ICC : Ingénierie du Cloud Computing | EISTI") {
+
+<br />
+
+<div class="content-section-b">
+    <div class="container">
+        @for(promotion <- listePromotions){
+        <h2 class="section-heading">Promotion @promotion</h2>
+        <div class="row">
+            @for(eleve <- eleves){
+                @if(eleve.promotion == promotion){
+                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 text-center">
+                        @if(eleve.photo.isDefined) {
+                            <img class="img-responsive img-thumbnail" src='@routes.Assets.at("images/eleves")/@eleve.photo' alt=""><br />
+                        } else {
+                            <img class="img-responsive img-thumbnail" src='@routes.Assets.at("images/fake.jpg")' alt=""><br />
+                        }
+                        @eleve.prenom @eleve.nom <br />@if(eleve.pseudo.isDefined){- <i>@eleve.pseudo</i> -}
+                    </div>
+                }
+            }
+        </div>
+        }
+    </div>
+</div>
+
+}

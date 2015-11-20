@@ -1,0 +1,38 @@
+@(loginform : Form[Account])(implicit flash: Flash, request : RequestHeader)
+
+@main_admin("Admin - Option ICC : Ingénierie du Cloud Computing | EISTI"){
+
+<div class="intro-header-admin"  style="height:100%;">
+    <div class="container">
+        <div class="row" style="height: 80px;">
+            <div class="col-lg-offset-1 col-md-10" id="errorcontainer">
+                @if(flash.get("error").isDefined){
+                    <div class="alert alert-danger text-center " id="alertform">
+                        <i class="fa fa-warning"></i> @flash.get("error").get
+                    </div>
+                }
+                @if(flash.get("success").isDefined){
+                    <div class="alert alert-info text-center" id="alertform">
+                        <i class="fa fa-check"></i> @flash.get("success").get
+                    </div>
+                }
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="intro-message">
+                    <form class="form-signin" action="@routes.LoginLogOut.authenticate" method="post">
+                        <h1 class="form-signin-heading text-muted">Administration</h1>
+                        <input type="text" class="form-control" placeholder="Login" required="" autofocus="" name="email">
+                        <input type="password" class="form-control" placeholder="Password" required="" name="password">
+                        <button class="btn btn-lg btn-primary btn-block" type="submit">
+                            Connexion
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+}

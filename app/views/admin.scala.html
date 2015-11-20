@@ -1,0 +1,487 @@
+@(listeAdmins:List[Account],listeProjets:List[Projet], listeEleves:List[Eleve], listeProfs:List[Professeur])(implicit flash: Flash, request : RequestHeader)
+
+@navigation_admin()
+
+@main_admin("Admin - Option ICC : Ingénierie du Cloud Computing | EISTI"){
+
+<br /><br />
+
+<!-- Modal Admin -->
+<div class="modal fade" id="modalAdmin" tabindex="-1" role="dialog" aria-labelledby="modalAdminLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="inputAdminLabel">Titre</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" role="form" id="formAdmin" enctype="multipart/form-data"  action="@routes.AdminsController.submitAdmin" method="post">
+                    <div class="form-group" hidden="hidden">
+                        <label for="inputAdminId"  class="col-sm-2 control-label">Id</label>
+                        <div class="col-sm-10">
+                            <input type="text" name="id" class="form-control" id="inputAdminId" placeholder="Id">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputAdminLogin" class="col-sm-2 control-label">Login</label>
+                        <div class="col-sm-10">
+                            <input type="text" name="login" class="form-control" id="inputAdminLogin" placeholder="Login" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputAdminPass" class="col-sm-2 control-label">Mot de passe</label>
+                        <div class="col-sm-10">
+                            <input type="password" name="password" class="form-control" id="inputAdminPass" placeholder="Mot de passe" required>
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
+                    <button type="submit" class="btn btn-primary">Sauvegarder</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Professeurs -->
+<div class="modal fade" id="modalProf" tabindex="-1" role="dialog" aria-labelledby="modalProfLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="inputProfLabel">Titre</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" role="form" id="formProf" enctype="multipart/form-data"  action="@routes.ProfesseursController.submitProf" method="post">
+                    <div class="form-group" hidden="hidden">
+                        <label for="inputProfId"  class="col-sm-2 control-label">Id</label>
+                        <div class="col-sm-10">
+                            @*(id: Option[Long], prenom: String,nom : String,email :
+                            Option[String],telephone : Option[String],photo : Option[String],description : Option[String],departement : Option[String])*@
+                            <input type="text"  name="id" class="form-control" id="inputProfId" placeholder="Id">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputProfPrenom" class="col-sm-2 control-label">Prénom</label>
+                        <div class="col-sm-10">
+                            <input type="text" name="prenom" class="form-control" id="inputProfPrenom" placeholder="Prénom" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputProfNom"   class="col-sm-2 control-label">Nom</label>
+                        <div class="col-sm-10">
+                            <input type="text" name="nom" class="form-control" id="inputProfNom" placeholder="Nom" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputProfEmail" class="col-sm-2 control-label">Email</label>
+                        <div class="col-sm-10">
+                            <input type="email" name="email" class="form-control" id="inputProfEmail" placeholder="Email">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputProfTelephone" class="col-sm-2 control-label">Téléphone</label>
+                        <div class="col-sm-10">
+                            <input type="text" name="telephone" class="form-control" id="inputProfTelephone" placeholder="Téléphone">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputProfDescription" class="col-sm-2 control-label">Description</label>
+                        <div class="col-sm-10">
+                            <textarea style="resize: none;" name="description" class="form-control" rows="10" id="inputProfDescription" placeholder="Description"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputProfDepartement" class="col-sm-2 control-label">Département</label>
+                        <div class="col-sm-10">
+                            <input type="text" name="departement" class="form-control" id="inputProfDepartement" placeholder="Département">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputfile" class="col-sm-2  control-label">Photo</label>
+                        <div class="col-sm-10">
+                            <input type="file" name="photo"  class="form-control" id="inputfile">
+                        </div>
+                    </div>
+                    <div class="form-group" hidden="hidden">
+                        <label for="inputOldPhoto" class="col-sm-2 control-label">Old photo</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="inputOldPhoto"  name="oldphoto" placeholder="Old photo">
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
+                    <button type="submit" class="btn btn-primary">Sauvegarder</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Eleve -->
+<div class="modal fade" id="modalEleve" tabindex="-1" role="dialog" aria-labelledby="modalEleveLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="inputEleveLabel">Titre</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" role="form" id="formEleve" enctype="multipart/form-data"  action="@routes.ElevesController.submitEleve" method="post">
+                    <div class="form-group" hidden="hidden">
+                        <label for="inputEleveId" class="col-sm-2 control-label">Id</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="inputEleveId"  name="id" placeholder="Id">
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label for="inputElevePromotion" class="col-sm-2 control-label">Promotion</label>
+                        <div class="col-sm-10">
+                            <input type="number"  name="promotion" class="form-control" id="inputElevePromotion" placeholder="Promotion" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputElevePrenom" class="col-sm-2 control-label">Prénom</label>
+                        <div class="col-sm-10">
+                            <input type="text" name="prenom" class="form-control" id="inputElevePrenom" placeholder="Prénom" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputEleveNom"  class="col-sm-2 control-label">Nom</label>
+                        <div class="col-sm-10">
+                            <input type="text" name="nom" class="form-control" id="inputEleveNom" placeholder="Nom" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputElevePseudo" class="col-sm-2 control-label">Pseudo</label>
+                        <div class="col-sm-10">
+                            <input type="text" name="pseudo" class="form-control" id="inputElevePseudo" placeholder="Pseudo">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="inputfile" class="col-sm-2  control-label">Photo</label>
+                        <div class="col-sm-10">
+                                <input type="file" name="photo"  class="form-control" id="inputfile">
+                         </div>
+                    </div>
+                    <div class="form-group" hidden="hidden">
+                        <label for="inputOldPhoto" class="col-sm-2 control-label">Old photo</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="inputOldPhoto"  name="oldphoto" placeholder="Old photo">
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
+                    <button type="submit" class="btn btn-primary">Sauvegarder</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Projet -->
+<div class="modal fade" id="modalProjet" tabindex="-1" role="dialog" aria-labelledby="modalProjetLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="inputProjetLabel">Titre</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" role="form" id="formProjet" enctype="multipart/form-data"  action="@routes.ProjetsController.submitProjet" method="post">
+                    <div class="form-group" hidden="hidden">
+                        <label for="inputProjetId" class="col-sm-2 control-label">Id</label>
+                        <div class="col-sm-10">
+                            <input type="text" name="id" class="form-control" id="inputProjetId" placeholder="Id">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputProjetTitre" class="col-sm-2 control-label">Titre</label>
+                        <div class="col-sm-10">
+                            <input type="text" name="titre" class="form-control" id="inputProjetTitre" placeholder="Titre" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputProjetUrl" class="col-sm-2 control-label">URL</label>
+                        <div class="col-sm-10">
+                            <input type="text" name="url" class="form-control" id="inputProjetUrl" placeholder="URL">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputProjetDescription" class="col-sm-2 control-label">Description</label>
+                        <div class="col-sm-10">
+                            <textarea style="resize: none;" required name="description" class="form-control" rows="10" id="inputProjetDescription" placeholder="Description"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputfile" class="col-sm-2  control-label">Photo</label>
+                        <div class="col-sm-10">
+                            <input type="file" name="photo"  class="form-control" id="inputfile">
+                        </div>
+                    </div>
+                    <div class="form-group" hidden="hidden">
+                        <label for="inputOldPhoto" class="col-sm-2 control-label">Old photo</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="inputOldPhoto"  name="oldphoto" placeholder="Old photo">
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
+                    <button type="submit" class="btn btn-primary">Sauvegarder</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Contenu de la page -->
+<div class="content-section-b">
+    <div class="container">
+        <div class="row" style="height: 80px;">
+            <div class=" col-md-12" id="errorcontainer">
+                @if(flash.get("error").isDefined){
+                    <div class="alert alert-danger text-center " id="alertform">
+                        <i class="fa fa-warning"></i> @flash.get("error").get
+                    </div>
+                }
+                @if(flash.get("success").isDefined){
+                    <div class="alert alert-info text-center" id="alertform">
+                        <i class="fa fa-check"></i> @flash.get("success").get
+                    </div>
+                }
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6">
+                <a class='btn btn-primary btn-xs pull-right administration_button modal-admin' data-toggle="modal" data-target="#modalAdmin" data-label="Ajouter un administrateur" href="#"><b>+</b> Ajouter un administrateur</a>
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Administrateurs</h3>
+                        <div class="pull-right">
+                                <span class="clickable filter" data-toggle="tooltip" title="Toggle table filter" data-container="body">
+                                    <i class="glyphicon glyphicon-filter"></i>
+                                </span>
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                        <input type="text" class="form-control" id="admin-table-filter" data-action="filter" data-filters="#admin-table" placeholder="Filtre administrateurs" />
+                    </div>
+                    <table class="table table-hover" id="admin-table">
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Login</th>
+                            <th>Mot de passe</th>
+                            <th class="text-center">Action</th>
+                        </tr>
+                        </thead>
+                        <tbody id="admin-table-type">
+                        @for(admin <- listeAdmins){
+                        <tr>
+                            <td>@admin.id</td>
+                            <td>@admin.email</td>
+                            <td>●●●●●●●●</td>
+                            <td class="text-center"><a class='btn btn-info btn-xs modal-admin' data-toggle="modal" data-target="#modalAdmin" data-id="@admin.id" data-login="@admin.email" data-password="@admin.password" data-label="Modifier un administrateur" href="#"><span class="glyphicon glyphicon-edit"></span> Edit</a>  <a href="@routes.AdminsController.deleteAdmin(admin.id.get)" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span> Del</a></td>
+                        </tr>
+                        }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <a class='btn btn-primary btn-xs pull-right administration_button modal-prof' data-toggle="modal" data-target="#modalProf" data-label="Ajouter un professeur" href="#"><b>+</b> Ajouter un professeur</a>
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Professeurs</h3>
+                        <div class="pull-right">
+                                <span class="clickable filter" data-toggle="tooltip" title="Toggle table filter" data-container="body">
+                                    <i class="glyphicon glyphicon-filter"></i>
+                                </span>
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                        <input type="text" class="form-control" id="prof-table-filter" data-action="filter" data-filters="#prof-table" placeholder="Filtre professeurs" />
+                    </div>
+                    <table class="table table-hover" id="prof-table">
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Prénom</th>
+                            <th>Nom</th>
+                            <th>Email</th>
+                            <th class="text-center">Action</th>
+                        </tr>
+                        </thead>
+                        <tbody id="prof-table-type">
+                        @for(prof <- listeProfs){
+                        <tr>
+                            <td>@prof.id</td>
+                            <td>@prof.prenom</td>
+                            <td>@prof.nom</td>
+                            <td>@prof.email</td>
+                            <td class="text-center"><a class='btn btn-info btn-xs modal-prof' data-toggle="modal" data-target="#modalProf" data-id="@prof.id" data-photo="@prof.photo" data-prenom="@prof.prenom" data-nom="@prof.nom" data-email="@prof.email" data-telephone="@prof.telephone" data-description="@prof.description" data-departement="@prof.departement" data-label="Modifier un professeur" href="#"><span class="glyphicon glyphicon-edit"></span> Edit</a>  <a href="@routes.ProfesseursController.deleteProf(prof.id.get)" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span> Del</a></td>
+                        </tr>
+                        }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6">
+                <a class='btn btn-primary btn-xs pull-right administration_button modal-projet' data-toggle="modal" data-target="#modalProjet" data-label="Ajouter un projet" href="#"><b>+</b> Ajouter un projet</a>
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Projets</h3>
+                        <div class="pull-right">
+                                <span class="clickable filter" data-toggle="tooltip" title="Toggle table filter" data-container="body">
+                                    <i class="glyphicon glyphicon-filter"></i>
+                                </span>
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                        <input type="text" class="form-control" id="projet-table-filter" data-action="filter" data-filters="#projet-table" placeholder="Filtre projet" />
+                    </div>
+                    <table class="table table-hover" id="projet-table">
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Titre</th>
+                            <th>URL</th>
+                            <th class="text-center">Action</th>
+                        </tr>
+                        </thead>
+                        <tbody id="projet-table-type">
+                        @for(projet <- listeProjets){
+                        <tr>
+                            <td>@projet.id</td>
+                            <td>@projet.titre</td>
+                            <td><a target="_blank" href='@projet.url'>@projet.url</a></td>
+                            <td class="text-center"><a class='btn btn-info btn-xs modal-projet' data-toggle="modal" data-target="#modalProjet" data-id="@projet.id" data-photo="@projet.imagePath" data-titre="@projet.titre" data-url="@projet.url" data-description="@projet.description" data-label="Modifier un projet" href="#"><span class="glyphicon glyphicon-edit"></span> Edit</a> <a href="@routes.ProjetsController.deleteProjet(projet.id.get)" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span> Del</a></td>
+                        </tr>
+                        }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <a class='btn btn-primary btn-xs pull-right administration_button modal-eleve' data-toggle="modal" data-target="#modalEleve" data-label="Ajouter un élève" href="#"><b>+</b> Ajouter un élève</a>
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Élèves</h3>
+                        <div class="pull-right">
+                            <span class="clickable filter" data-toggle="tooltip" title="Toggle table filter" data-container="body">
+                                <i class="glyphicon glyphicon-filter"></i>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                        <input type="text" class="form-control" id="eleve-table-filter" data-action="filter" data-filters="#eleve-table" placeholder="Filtre élève" />
+                    </div>
+                    <table class="table table-hover" id="eleve-table">
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Promotion</th>
+                            <th>Prénom</th>
+                            <th>Nom</th>
+                            <th>Pseudo</th>
+                            <th class="text-center">Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @for(eleve <- listeEleves){
+                            <tr>
+                                <td>@eleve.id</td>
+                                <td>@eleve.promotion</td>
+                                <td>@eleve.prenom</td>
+                                <td>@eleve.nom</td>
+                                <td>@eleve.pseudo</td>
+
+                                <td class="text-center"><a class='btn btn-info btn-xs modal-eleve' data-toggle="modal" data-target="#modalEleve" data-id="@eleve.id" data-photo="@eleve.photo" data-promotion="@eleve.promotion" data-prenom="@eleve.prenom" data-nom="@eleve.nom" data-pseudo="@eleve.pseudo" data-label="Modifier un élève" href="#"><span class="glyphicon glyphicon-edit"></span> Edit</a> <a href="@routes.ElevesController.deleteEleve(eleve.id.get)" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span> Del</a></td>
+
+                            </tr>
+                        }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <script>
+        $(document).on("click", ".modal-eleve", function () {
+            var id = $(this).data('id');
+            var promotion = $(this).data('promotion');
+            var prenom = $(this).data('prenom');
+            var nom = $(this).data('nom');
+            var pseudo = $(this).data('pseudo');
+            var photo = $(this).data('photo');
+            var label = $(this).data('label');
+            $("#modalEleve .modal-body #inputEleveId").val( id );
+            $("#modalEleve .modal-body #inputElevePromotion").val( promotion );
+            $("#modalEleve .modal-body #inputElevePrenom").val( prenom );
+            $("#modalEleve .modal-body #inputEleveNom").val( nom );
+            $("#modalEleve .modal-body #inputElevePseudo").val( pseudo );
+            $("#modalEleve .modal-body #inputElevePhoto").val( photo );
+            $("#modalEleve .modal-body #inputOldPhoto").val( photo );
+            $("#modalEleve .modal-header #inputEleveLabel").html( label );
+        });
+
+        $(document).on("click", ".modal-projet", function () {
+            var id = $(this).data('id');
+            var titre = $(this).data('titre');
+            var url = $(this).data('url');
+            var description = $(this).data('description');
+            var photo = $(this).data('photo');
+            var label = $(this).data('label');
+            $("#modalProjet .modal-body #inputProjetId").val( id );
+            $("#modalProjet .modal-body #inputProjetTitre").val( titre );
+            $("#modalProjet .modal-body #inputProjetUrl").val( url );
+            $("#modalProjet .modal-body #inputProjetDescription").val( description );
+            $("#modalProjet .modal-body #inputProjetPhoto").val( photo );
+            $("#modalProjet .modal-body #inputOldPhoto").val( photo );
+            $("#modalProjet .modal-header #inputProjetLabel").html( label );
+        });
+
+        $(document).on("click", ".modal-prof", function () {
+            var id = $(this).data('id');
+            var prenom = $(this).data('prenom');
+            var nom = $(this).data('nom');
+            var email = $(this).data('email');
+            var telephone = $(this).data('telephone');
+            var departement = $(this).data('departement');
+            var description = $(this).data('description');
+            var photo = $(this).data('photo');
+            var label = $(this).data('label');
+            $("#modalProf .modal-body #inputProfId").val( id );
+            $("#modalProf .modal-body #inputProfPrenom").val( prenom );
+            $("#modalProf .modal-body #inputProfNom").val( nom );
+            $("#modalProf .modal-body #inputProfEmail").val( email );
+            $("#modalProf .modal-body #inputProfTelephone").val( telephone );
+            $("#modalProf .modal-body #inputProfDepartement").val( departement );
+            $("#modalProf .modal-body #inputProfDescription").val( description );
+            $("#modalProf .modal-body #inputProfPhoto").val( photo );
+            $("#modalProf .modal-body #inputOldPhoto").val( photo );
+            $("#modalProf .modal-header #inputProfLabel").html( label );
+        });
+        $(document).on("click", ".modal-admin", function () {
+            var id = $(this).data('id');
+            var login = $(this).data('login');
+            var password = $(this).data('password');
+            var label = $(this).data('label');
+            $("#modalAdmin .modal-body #inputAdminId").val( id );
+            $("#modalAdmin .modal-body #inputAdminLogin").val( login );
+            $("#modalAdmin .modal-body #inputAdminPass").val( password );
+            $("#modalAdmin .modal-header #inputAdminLabel").html( label );
+        });
+    </script>
+
+    <script>
+        (function(){var $=jQuery;$.fn.extend({filterTable:function(){return this.each(function(){$(this).on("keyup",function(e){$(".filterTable_no_results").remove();var $this=$(this),search=$this.val().toLowerCase(),target=$this.attr("data-filters"),$target=$(target),$rows=$target.find("tbody tr");if(search=="")$rows.show();else{$rows.each(function(){var $this=$(this);$this.text().toLowerCase().indexOf(search)===-1?$this.hide():$this.show()});if($target.find("tbody tr:visible").size()===0){var col_count=
+        $target.find("tr").first().find("td").size();var no_results=$('<tr class="filterTable_no_results"><td colspan="'+col_count+'">Pas de résultat trouvé</td></tr>');$target.find("tbody").append(no_results)}}})})}});$('[data-action="filter"]').filterTable()})(jQuery);
+        $(function(){$('[data-action="filter"]').filterTable();$(".container").on("click",".panel-heading span.filter",function(e){var $this=$(this),$panel=$this.parents(".panel");$panel.find(".panel-body").slideToggle();if($this.css("display")!="none")$panel.find(".panel-body input").focus()});$('[data-toggle="tooltip"]').tooltip()});
+    </script>
+}

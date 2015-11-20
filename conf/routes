@@ -1,0 +1,48 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+# Page d'accueil
+GET         /                                            controllers.Application.accueil
+
+# Partie connexion
+GET         /connexion                                   controllers.LoginLogOut.connexion
+POST        /authenticate                                controllers.LoginLogOut.authenticate
+GET         /administration                              controllers.Application.admin
+GET         /logout                                      controllers.LoginLogOut.logout
+
+# Présentation
+GET         /presentation                                controllers.Application.presentation
+
+# Professeurs
+GET         /professeurs                                 controllers.Application.professeurs
+
+# Elèves
+GET         /eleves                                      controllers.Application.eleves
+
+# Métiers
+GET         /metiers                                     controllers.Application.metiers
+
+# Projets
+GET         /projets                                     controllers.Application.projets
+
+# Deletes, edit et insert
+
+## Elèves
+GET         /administration/deleteEleve/:id              controllers.ElevesController.deleteEleve(id: Long)
+POST        /administration/insertionorediteleve         controllers.ElevesController.submitEleve
+
+## Projets
+GET         /administration/deleteProjet/:id             controllers.ProjetsController.deleteProjet(id: Long)
+POST        /administration/insertionoreditprojet        controllers.ProjetsController.submitProjet
+
+## Professeurs
+GET         /administration/deleteProf/:id               controllers.ProfesseursController.deleteProf(id: Long)
+POST        /administration/insertionoreditprof          controllers.ProfesseursController.submitProf
+
+## Administrateurs
+GET         /administration/deleteAdmin/:id               controllers.AdminsController.deleteAdmin(id: Long)
+POST        /administration/insertionoreditadmin          controllers.AdminsController.submitAdmin
+
+# Map static resources from the /public folder to the /assets URL path
+GET         /assets/*file                                controllers.Assets.at(path="/public", file)

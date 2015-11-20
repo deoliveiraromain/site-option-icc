@@ -1,0 +1,49 @@
+.carousel-caption {
+    position: relative;
+    left: 0%;
+    right: 0%;
+    bottom: 0px;
+    z-index: 10;
+    padding-top: 0px;
+    padding-bottom: 0px;
+    color: #000;
+    text-shadow: none;
+}
+
+.carousel {
+    position: relative;
+}
+
+.controllers {
+    position: absolute;
+    top: 0px;
+}
+
+.carousel-control.left,
+.carousel-control.right {
+    background-image: none;
+}
+
+
+#totalcontainer{
+    background: url(../images/wilson.jpg) no-repeat center center;
+    background-size: cover;
+    min-height: 100%;
+    text-align: center;
+    padding-top: 10%;
+}
+
+#totalcontainermessage{
+    position: relative;
+    padding-top: 5%;
+}
+
+.description-titre{
+    color:white;
+    text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.6);}
+.description{
+    max-height: 200px;
+    color:white;
+    text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.6);
+    overflow-y: auto;
+}

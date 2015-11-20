@@ -1,0 +1,70 @@
+@(listeProjets:List[Projet])
+
+@main("Option ICC : Ingénierie du Cloud Computing | EISTI") {
+
+    <link rel="stylesheet" media="screen" href='@routes.Assets.at("stylesheets/projets.css")'>
+
+    <script type="text/javascript">
+        $(window).bind("load resize slid.bs.carousel", function() {
+            var imageHeight = $(".active .holder").height();
+            $(".controllers").height( imageHeight );
+        });
+    </script>
+
+    <div class="intro-header" id="totalcontainer">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="intro-message" id="totalcontainermessage">
+                        <h1 style="margin-bottom: 25px;">Projets réalisés en <br/> Ingénierie du Cloud Computing </h1>
+                        @*<hr>*@
+
+                        <div class="container">
+                            <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+                                <div class="carousel-inner">
+                                @for((projet,index) <- listeProjets.zipWithIndex){
+                                    <div class="item @if(index==0){active}">
+                                        <div class="holder col-sm-8">
+                                            @if(projet.imagePath.isDefined) {
+                                                <img class="img-responsive img-thumbnail" src='@routes.Assets.at("images/projets")/@projet.imagePath' alt=""><br />
+                                            } else {
+                                                <img class="img-responsive img-thumbnail" src='@routes.Assets.at("images/projets/fakeprojet.jpg")' alt=""><br />
+                                            }
+                                            @*<img class="img-responsive" src='@routes.Assets.at("images/"+projet.imagePath)' alt="...">*@
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class="carousel-caption">
+                                                <h2 class="description-titre">@projet.titre</h2>
+                                                <p class="description">@projet.description</p>
+                                                @if(projet.url.isDefined) {
+                                                    <a href="@projet.url" target="_blank"><button type="button" class="btn btn-default">Accéder</button></a>
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                    }
+                                </div>
+                                <div class="controllers col-sm-8 col-xs-12">
+                                    <a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">
+                                        <span class="glyphicon glyphicon-chevron-left"></span>
+                                    </a>
+                                    <a class="right carousel-control" href="#carousel-example-generic" data-slide="next">
+                                        <span class="glyphicon glyphicon-chevron-right"></span>
+                                    </a>
+                                    <ol class="carousel-indicators">
+                                        @for((projet,index)<-listeProjets.zipWithIndex){
+                                            <li data-target="#carousel-example-generic" data-slide-to="@index" class="@if(index==0){active}"></li>
+                                        }
+                                    </ol>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+}
