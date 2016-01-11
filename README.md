@@ -1,5 +1,9 @@
 # site-option-icc
 
+Site internet pour l'option de spécialisation Internet du Cloud Computing.
+
+Technos : Scala, Play Framework, HTML, CSS, Twitter Bootstrap, Slick TypeSafe
+
 Installation du projet (Intellij)
 
 1) Télécharger Play à l'adresse :
